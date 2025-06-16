@@ -90,7 +90,7 @@ To set up a strong password policy, you have to comply with the following requir
 - The user has to receive a warning message 7 days before their password expires.
 - Your password must be at least 10 characters long. It must contain and uppercase letter, a lowercase letter, and a number. Also, it must not contain more than 3 consecutive identical characters.
 - The password must not include the name of the user.
-- The following rule does not apply to the root password: The password must have at least 7characters that are not part of the former password.
+- The following rule does not apply to the root password: The password must have at least 7 characters that are not part of the former password.
 - Of course, your root password has to comply with this policy.
 
 > ⚠️
@@ -103,7 +103,7 @@ To set up a strong configuration for your **sudo** group, you have to comply wit
 - A custom message of your choice has to be displayed if an error due to a wrong password occurs when using **sudo**.
 - Each action using **sudo** has to be archived, both inputs and outputs. The log file has to be saved in the **/var/log/sudo** folder.
 - The **TTY** mode has to be enabled for security reasons.
-- For security reasons too, the paths that can be used by **sudo** must be restricted.<br>Example: **/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+- For security reasons too, the paths that can be used by **sudo** must be restricted.<br>Example: **/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin**
 
 Finally, you have to create a simple script called **monitoring.sh**. It must be devel-oped in **bash**.
 
@@ -121,7 +121,7 @@ Your script must always be able to display the following information:
 - Whether LVM is active or not.
 - The number of active connections.
 - The number of users using the server.
-- The IPv4 address of your server and its MAC (media Access Control) address.
+- The IPv4 address of your server and its MAC(Media Access Control) address.
 - The number of commands executed with the **sudo** program.
 
 > ⚠️
@@ -149,7 +149,7 @@ Bonus list:
 ![Screenshot from 2025-06-16 17-13-26](https://github.com/user-attachments/assets/06030c6c-19c5-4acd-b086-fea69758b816)
 
 - Set up a functional WordPress website with the following services: lighttpd, Mari-aDB, and PHP.
-- Set up a service of your choice that you think is useful (NGINX / Apache2 ex-cluded!). During the defense, you will have to justify your choice.
+- Set up a service of your choice that you think is useful(NGINX / Apache2 ex-cluded!). During the defense, you will have to justify your choice.
 
 > ℹ️
 >

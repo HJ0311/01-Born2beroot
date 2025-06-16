@@ -1,323 +1,160 @@
-# Born2beroot
+# Born2beRoot
+> Summary: 이 문서는 시스템 관리 관련 연습 문제이다.
+###### 버전: 3.2
+---
+### 목차
 
-##### Summary: This document is a System Administration related exercise.
-##### version : 2
+<div align="center">
 
-요약 : 이 과제는 시스템(운영체제) 관리 관련 실습입니다.
+| Chapter | Contents |
+| :-----: | :------: |
+| 1 | [서론](#Chapter-1) |
+| 2 | [소개](#Chapter-2) |
+| 3 | [기본 지침](#Chapter-3) |
+| 4 | [필수 파트](#Chapter-4) |
+| 5 | [보너스 파트](#Chapter-5) |
+
+</div>
+
+---
+## Chapter 1
+### 서론
+
+![Screenshot from 2025-06-16 17-12-46](https://github.com/user-attachments/assets/d1884590-000c-4d64-b9d7-ad4af64317fe)
+
+---
+## Chapter 2
+### 소개
+
+이 프로젝트는 당신에게 가상 세계의 아름다움을 소개 시켜주는 것을 목표로 하고 있다.
 <br>
-버전 : 2
+당신은 **VirtualBox**(**VirtualBox**를 사용할 수 없다면 **UTM**)에서 특정 조건을 따르며 첫 번째 가상 머신을 만들 것이다. 이 프로젝트가 끝나면, 당신은 엄격한 규칙을 적용하면서 당신만의 운영 체제를 만들 수 있을 것이다.
 
-<br>
+---
+## Chapter 3
+### 기본 지침
 
-# Contents
-| Chapter | Contents                                         	| page |
-| :-----: | :---------------------------------------------------| :--: |
-|    1    | [**Preamble**](#Chapter-1)							|  2   |
-|    2    | [**Introduction**](#Chapter-2)						|  3   |
-|    3    | [**General guidelines**](#Chapter-3)				|  4   |
-|	 4    | [**Mandatory part**](#Chapter-3-1)					|  5   |
-|    5    | [**Bonus part**](#Chapter-3-2)						|  10  |
-|    6    | [**Submission and peer-evaluation**](#Chapter-3-3)	|  12  |
+- **VirtualBox**(**VirtualBox**를 사용할 수 없다면 **UTM**)의 사용은 필수이다.
+- 저장소의 루트에는 **signature.txt** 파일이 위치해야 한다. 가상 머신의 가상 디스크의 식별 정보를 그 파일에 붙여 넣어야 한다. 제출 및 동료 평가에서 자세한 정보를 확인해라.
 
+---
+## Chapter 4
+### 필수 파트
 
-<br>
+이 프로젝트는 특정 규칙을 따르며 첫 서버를 세팅할 수 있도록 내용이 구성되어 있다.
 
-# **Chapter 1**
+> ⚠️
+>
+> 서버를 설정 해보는 것이므로 최소한의 서비스만 설치할 수 있다. 이러한 이유 때문에, 그래픽 인터페이스는 사용할 수 없다. 따라서, X.org나 다른 비슷한 그래픽 서비스를 설치하는 것은 금지되어 있다. 지키지 않을 경우, 0점을 받게 될 것이다.
 
-## Introduction
+운영 체제 시스템으로 **Debian**의 최신 안정 버전(테스팅 버전/불안정 버전 금지)과 **Rocky**의 최신 안정 버전 둘 중에 하나를 선택해야 한다. **Debian**은 시스템 관리를 처음 해보는 당신에게 매우 추천한다.
 
-<br>
+> ℹ️
+>
+> Rocky를 세팅하는 것은 꽤 복잡하다. 그러므로, KDump를 설정할 필요가 없다. 그러나, SELinux는 구동 시 반드시 작동해야 하며 그 구성은 프로젝트가 요구하는 것을 충족해야 한다. 마찬가지로 데비안의 AppArmor도 반드시 구동 시 작동해야 한다.
 
-![2](https://user-images.githubusercontent.com/87311268/221544778-c85cb3d8-32f4-4919-aa1c-0db54b33b38a.jpg)
+반드시 **LVM**을 사용하여 2개의 암호화된 파티션을 생성해야 한다. 아래는 파티션으로 나눈 것의 예시이다.:
+![Screenshot from 2025-06-16 17-12-57](https://github.com/user-attachments/assets/580e402d-701a-4fbe-a77a-f513e4b9f67f)
 
-"당신이 원하는 것 무엇이든
-<br>
-가상 머신
-<br>
-당신만의 세계"
-<br>
 
-# **Chapter 2**
+> ℹ️
+>
+> 디펜스 중, 당신이 고른 운영체제에 대한 몇 가지 질문을 받게 될 것이다. 예를 들어, aptitude와 apt의 차이점 혹은 SELinux와 AppArmor의 차이점에 대해 아는지 말이다. 간단하게, 무엇을 사용했는지 이해해라!
 
-## Introduction
+**SSH** 서비스는 가상 머신에서 필수 포트인 4242에서 구동될 것이다. 보안적인 이유로, **SSH**를 루트에서 연결되도록 하지 말아라.
 
-<br>
+> ℹ️
+>
+> **SSH**를 사용하는 것은 디펜스 도중 새 계정을 생성하는 방식으로 테스트 될 것이다. 그것이 어떻게 작동하는지에 대해 이해하고 있어야 한다.
 
-##### _This project aims to introduce you to the wonderful world of virtualization._
-이 과제에서는 여러분에게 가상화의 멋진 세상을 소개해드리고자 합니다.
+**UFW**(Rocky의 경우 firewalld) firewall을 사용하여 운영 체제를 구성하고 가상 머신에서 4242 포트만 열어두어야 한다.
 
-<br>
+> ℹ️
+>
+> firewall은 가상 머신을 구동할 때 활성화 되어야 한다. Rocky의 경우, UFW 대신 firewalld를 사용해야 한다.
 
-##### _You will create your first machine in VirtualBox (or UTM if you can’t use VirtualBox) under specific instructions. Then, at the end of this project, you will be able to set up your own operating system while implementing strict rules_
-여러분은 VirtualBox를 통해서 (불가능하다면 UTM을 통해서) 주어진 요구사항들에 따라 첫 가상 머신을 만들 것입니다. 그리고 나면, 과제를 마칠 때 즈음 여러분은 엄격한 규칙들로 이루어진 자신만의 운영체제를 구현할 수 있을 것입니다.
+- 가상 머신의 **호스트명**은 42로 끝나는 로그인이어야 한다(예시, wil42). 평가 중에 호스트명을 수정해야 한다.
+- 강력한 패스워드 방침을 적용해야 한다.
+- 엄격한 규칙에 따라 **sudo**를 설치하고 구성해야 한다.
+- 루트 유저 이외에도, 사용자명으로 로그인한 사용자가 존재해야 한다.
+- 이 유저는 **user42**와 **sudo** 그룹에 소속되어 있어야 한다.
 
-<br>
+> ℹ️
+>
+> 평가 중, 당신은 새 유저를 생성하고 그룹에 넣을 수 있어야 한다.
 
-# **Chapter 3**
+강력한 패스워드 방침을 설정하기 위해, 당신은 다음과 같은 요구사항을 따라야 한다:
 
-## General guidelines
+- 패스워드는 매 30일마다 만료된다.
+- 비밀번호 수정 전 최소 허용 일수는 2일로 설정된다.
+- 유저는 비밀번호가 만료되기 7일 전에 경고 메세지를 받아야 한다.
+- 패스워드는 반드시 최소 10글자 이상이어야 한다. 대문자, 소문자, 그리고 숫자를 포함해야 한다. 또한, 연속적으로 동일한 문자를 3개 이상 포함해선 안 된다.
+- 패스워드는 유저명이 포함되어 있어선 안 된다.
+- 루트 패스워드에는 다음과 같은 규칙이 적용되지 않는다: 패스워드는 비밀번호는 이전 비밀번호에 속하지 않으며 최소 7글자 이상이어야 한다.
+- 물론, 루트 패스워드는 이 방침을 준수해야 한다.
 
-<br>
+> ⚠️
+>
+> 구성 파일을 설정한 뒤, 루트 계정을 포함하여 가상 머신에 있는 모든 계정의 현재 패스워드를 변경하게 될 것이다.
 
-##### _The use of VirtualBox (or UTM if you can’t use VirtualBox) is mandatory._
+**sudo** 그룹에 대해 강력한 구성을 설정하려면, 다음과 같은 요구 사항을 준수해야 한다:
 
-VirtualBox를 사용하는 것(불가능하다면 UTM을 사용하는 것)이 기본 요구사항입니다.
+- **sudo**를 사용한 인증은 잘못된 비밀번호가 있는 경우 3번의 제한 시도가 존재한다.
+- 당신이 선택한 커스텀 메세지는 **sudo**를 사용했을 경우 잘못된 패스워드가 있을 때 에러 메세지로 표시될 것이다.
+- **sudo**를 사용하는 각 작업은 출력과 입력 모두 아카이브 되어야 한다. 로그 파일은 **/var/log/sudo** 폴더에 저장된다.
+- **TTY** 모드는 보안적인 이유 때문에 활성화 해야 한다.
+- 마찬가지로 보안적인 이유 때문에, **sudo**의 경로는 반드시 제한되어야 한다.<br>예시: **/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin**
 
-<br>
+마지막으로, **monitoring.sh**라는 간단한 스크립트를 생성해라. **bash**에서 개발 되어야 한다. 
 
-##### _You only have to turn in a signature.txt file at the root of your repository. You must paste in it the signature of your machine’s virtual disk. Go to Submission and peer-evaluation for more information._
+서버를 구동할 때, 스크립트는 몇 가지 정보(아래의 목록)를 모든 터미널에 10분 마다(**wall**을 살펴봐라) 표시해야 한다. 배너는 선택 사항이다. 어떠한 에러도 보이면 안 된다.
 
-여러분은 repository의 root에 signature.txt 파일만 제출하여야 합니다. signature.txt에는 가상 머신의 디스크 이미지 파일의 signature를 붙여 넣어야 합니다. 더 많은 정보를 찾으시려면 Submission and peer-evaluation 항목을 참고하십시오.
+당신의 스크립트는 언제나 아래와 같은 정보를 표시해야 한다.
 
-<br>
-
-# **Chapter 4**
-## Mandatory part
-
-<br>
-
-##### _This project consists of having you set up your first server by following specific rules._
-
-이 과제는 여러분의 첫 서버를 특정 규칙들에 따라 구현하게끔 할 것입니다.
-
-<br>
-
-> ##### _⚠️Since it is a matter of setting up a server, you will install the minimum of services. For this reason, a graphical interface is of no use here. It is therefore forbidden to install X.org or any other equivalent graphics server. Otherwise, your grade will be 0._
-
-> ⚠️서버를 구성하는 것이 주요 사항이기 때문에, 최소한의 서비스만 설치하셔야 합니다. 이 때문에, 그래픽 인터페이스는 이 과제에서 사용되지 않습니다. 그래픽 인터페이스를 사용할 수 없으므로, X.org나 그에 상응하는 다른 그래픽 서버들은 설치할 수 없습니다. 만약 설치했다면, 0점을 받게될 것입니다.
-
-<br>
-
-##### _You must choose as an operating system either the latest stable version of Debian (no testing/unstable), or the latest stable version of Rocky. Debian is highly recommended if you are new to system administration._
-
-여러분은 가장 최신의 stable 버전인 ___Debian___(testing/unstable 제외) 혹은, 가장 최신의 stable 버전인 ___Rocky___ 둘 중에 한 운영체제를 선택하셔야 합니다. 만약 시스템 관리가 처음이시라면, ___Debian___ 을 강력히 추전드립니다.
-
-<br>
-
-> ##### ℹ️ _setting up Rocky is quite complex. Therefore, you don’t have to set up KDump. However, SELinux must be running at startup and its configuration has to be adapted for the project’s needs. AppArmor for Debian must be running at startup too._
-
-> ℹ️ Rocky를 세팅하는 것은 꽤 복잡합니다. 그렇기 때문에, 여러분은 KDump까지 설치할 필요는 없습니다. 하지만, SELinux는 실행되었을 때 반드시 작동하고 있어야하고, SELinux은 과제에서 요구하는 사항에 따라 구성되어있어야 합니다. Debian의 경우에는 AppArmor가 실행 시에 작동하고있어야 합니다.
-
-<br>
-
-##### _You must create at least 2 encrypted partitions using LVM. Below is an example of the expected partitioning:_
-여러분은 LVM을 통해 최소 2개 이상의 암호화된(encrypted) 파티션을 생성해야 합니다. 요구되는 파티셔닝의 예시는 아래와 같습니다.
-
-![3](https://user-images.githubusercontent.com/87311268/221544968-5df23ac7-2665-48b8-968e-1c063c541061.png)
-
-
-<br>
-
-> ##### ℹ️During the defense, you will be asked a few questions about the operating system you chose. For instance, you should know the differences between aptitude and apt, or what SELinux or AppArmor is. In short, understand what you use!
-평가를 진행하면서, 여러분은 여러분이 선택한 운영체제에 대한 질문들을 받게 될 것입니다. 예를 들면, apt와 aptitude의 차이점, 혹은 SElinux 또는 AppArmor가 무엇인지 등 말이죠.
-요약하자면, 여러분이 사용하고 있는 것이 무엇인지 아셔야 합니다!
-
-<br>
-
-##### A SSH service will be running on port 4242 only. For security reasons, it must not be possible to connect using SSH as root.
-SSH 서비스는 4242포트에서만 작동해야 합니다. 보안적인 이유로, root로는 SSH에 연결할 수 없어야 합니다.
-
-<br>
-
-> ##### ℹ️The use of SSH will be tested during the defense by setting up a new account. You must therefore understand how it works.
-SSH의 용법은 평가를 진행하면서, 생성된 새 계정을 통해 테스트됩니다. 그러니 SSH가 어떻게 작동하는지 아셔야 합니다.
-
-<br>
-
-##### You have to configure your operating system with the UFW (or firewalld for Rocky) firewall and thus leave only port 4242 open.
-여러분은 UFW(Rocky인 경우 firewalld) 방화벽을 여러분의 운영체제에 구성해놓으셔야 하고, 그에 따라 4242 포트만 열어놓으셔야 합니다.
-
-<br>
-
-> ##### ℹ️Your firewall must be active when you launch your virtual machine. For Rocky, you have to use firewalld instead of UFW.
-여러분이 가상 머신을 켰을 때, 방화벽이 작동하고 있어야 합니다. Rocky의 경우에는, UFW 대신 firewalld가 작동하고 있어야 합니다.
-
-<br>
-
-- ##### The hostname of your virtual machine must be your login ending with 42 (e.g. wil42). You will have to modify this hostname during your evaluation.
-- 여러분의 가상 머신의 hostname은 여러분의 42로 끝나는 여러분의 아이디여야 합니다(예시 : wil42). 평가 중에 여러분은 hostname을 수정하셔야 할 겁니다.
-- ##### You have to implement a strong password policy.
-- 여러분은 강력한 패스워드 정책을 구현하셔야 합니다.
-- ##### You have to install and configure sudo following strict rules.
-- 여러분은 엄격한 규칙에 따라서 sudo를 설치하고, 구성하셔야 합니다. 
-- ##### In addition to the root user, a user with your login as username has to be present.
-- root 유저에 더해서, 여러분의 아이디에 따른 유저도 존재해야 합니다.
-- ##### This user has to belong to the user42 and sudo groups.
-- 이 유저는 user42와 sudo 그룹에 속해있어야 합니다.
-
-<br>
-
-> ##### ℹ️During the defense, you will have to create a new user and assign it to a group.
-평가 중, 여러분은 새 유저를 생성하고, 그룹에 가입시켜야 합니다.
-
-<br>
-
-##### To set up a strong password policy, you have to comply with the following requirements:
-강력한 패스워드 규정을 구성하는 데에 있어서, 여러분은 다음과 같은 요구사항들을 적용해야 합니다:
-- ##### Your password has to expire every 30 days.
-- 패스워드는 매 30일마다 만료되어야 한다.
-- ##### The minimum number of days allowed before the modification of a password will be set to 2.
-- 패스워드 변경 후에 수정이 가능한 최소 경과일 수는 2일이어야 한다.
-- ##### The user has to receive a warning message 7 days before their password expires.
-- 유저는 패스워드 만료 7일 전에 경고 메시지를 받아야 한다.
-- ##### Your password must be at least 10 characters long. It must contain an uppercase letter, a lowercase letter, and a number. Also, it must not contain more than 3 consecutive identical characters.
-- 패스워드는 대문자, 소문자, 숫자를 포함한 최소 10글자 이상이어야 한다. 또, 반복되는 글자가 3글자 초과인 경우는 포함되지 않아야 한다.
-- ##### The password must not include the name of the user.
-- 패스워드는 유저의 이름을 포함하지 않아야 한다.
-- ##### The following rule does not apply to the root password: The password must have at least 7 characters that are not part of the former password.
-- 다음 규칙은 root 패스워드에 적용되지 않습니다 : 현재 패스워드는 최소 7글자 이상이 이전 패스워드와 달라야 한다.
-- ##### Of course, your root password has to comply with this policy.
-- 당연히, root 패스워드에도 이 규정은 적용되어야 합니다.
-
-<br>
-
-> ##### ⚠️After setting up your configuration files, you will have to change all the passwords of the accounts present on the virtual machine, including the root account.
-> ⚠️패스워드 구성 파일들을 설정한 후에, 여러분은 root 계정을 포함한 가상 머신에 있는 모든 비밀번호를 바꾸셔야 할 겁니다.
-
-<br>
-
-
-##### To set up a strong configuration for your sudo group, you have to comply with the following requirements:
-여러분의 sudo 그룹의 강력한 규정을 구성하기 위해서, 다음의 요구사항들을 적용해야 합니다:
-
-- ##### Authentication using sudo has to be limited to 3 attempts in the event of an incorrect password.
-- sudo를 사용하기 위한 인증에서, 잘못된 비밀번호 입력의 경우 3번의 시도로 제한되어야 한다.  
-- ##### A custom message of your choice has to be displayed if an error due to a wrong password occurs when using sudo.
-- sudo 사용 중, 잘못된 패스워드로 인한 에러가 발생했을 때에 여러분이 설정한 메시지가 출력되어야 한다.
-- ##### Each action using sudo has to be archived, both inputs and outputs. The log file has to be saved in the /var/log/sudo/ folder.
-- sudo를 통한 모든 동작(입출력)은 저장되어야 합니다. log 파일들은 /var/log/sudo 폴더에 저장되어야 한다.
-- ##### The TTY mode has to be enabled for security reasons.
-- 보안적인 이유로 인해, TTY 모드는 적용되어 있어야 한다.
-- ##### For security reasons too, the paths that can be used by sudo must be restricted.
-- 같은 이유로, sudo를 사용할 수 있는 경로는 제한되어있어야 한다.
-- ##### Example:
-- 경로 예시:
-##### /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
-
-<br>
-
-##### Finally, you have to create a simple script called monitoring.sh. It must be developed in bash.
-최종적으로, 여러분은 monitoring.sh라고 하는 간단한 스크립트를 작성해야 합니다. 스크립트는 bash로 작성되어야 합니다.
-
-##### At server startup, the script will display some information (listed below) on all terminals every 10 minutes (take a look at wall). The banner is optional. No error must be visible.
-서버를 시작할 때, 스크립트는 아래에 나열된 정보들을 모든 터미널에 매 10분마다 표시해야 합니다(wall을 잘 살펴보세요). 배너는 선택사항입니다. 에러는 표시되지 않아야 합니다.
-
-
-##### Your script must always be able to display the following information:
-여러분의 스크립트는 다음의 정보들을 항상 표시할 수 있어야 합니다.
-- The architecture of your operating system and its kernel version.
-- 운영체제와 커널의 버전에 대한 구조
-- The number of physical processors
-- 물리 프로세서들의 수
-- The number of virtual processors.
-- 가상 프로세서들의 수
-- The current available RAM on your server and its utilization rate as a percentage.
-- 현재 서버에서 사용가능한 RAM과 백분율로 표현된 사용률.
-- The current available memory on your server and its utilization rate as a percentage.
-- 현재 서버에서 사용가능한 memory와 백분율로 표현된 사용률.
-- The current utilization rate of your processors as a percentage.
-- 백분율로 표현된 프로세서들의 현재 사용률.
-- The date and time of the last reboot.
-- 마지막으로 재시작된 날짜와 시간.
-- Whether LVM is active or not.
+- 운영체제의 아키텍처와 그 커널 버전.
+- 물리적 프로세스의 개수.
+- 가상 프로세스의 개수.
+- 서버에 있는 현재 사용 가능한 RAM과 그 사용량의 백분율.
+- 서버에 있는 현재 사용 가능한 저장 용량과 그 사용량의 백분율.
+- 프로세서의 현재 사용량의 백분율.
+- 최신 리부트 날짜와 시간.
 - LVM의 활성화 여부.
-- The number of active connections.
-- 활성화된 연결들의 개수.
-- The number of users using the server.
+- 활성된 연결의 개수.
 - 서버를 사용하고 있는 유저의 수.
-- The IPv4 address of your server and its MAC (Media Access Control) address.
-- 서버의 IPv4 주소와 MAC 주소.
-- The number of commands executed with the sudo program
-- sudo 프로그램으로 실행된 명령의 수.
+- 서버의 IPv4 주소와 MAC(Media Access Control) 주소.
+- **sudo** 프로그램으로 활성화 된 명령어의 개수.
 
-> ℹ️During the defense, you will be asked to explain how this script works. You will also have to interrupt it without modifying it. Take a look at cron.
+> ⚠️
+>
+> 디펜스 중, 이 스크립트의 동작 방식에 대해 설명하라는 요청을 받게 될 것이다. 또한 그것을 수정하지 않고 중단할 수 있어야 한다. cron을 살펴봐라.
 
-> ℹ️평가 중, 여러분은 스크립트가 어떻게 동작하는지 질문받게 될 겁니다. 또, 스크립트를 수정하지 않고 그 동작을 중지시켜야 합니다. cron을 잘 살펴보세요.
+스크립트가 어떻게 동작해야 하는지에 대한 예제:
+![Screenshot from 2025-06-16 17-13-05](https://github.com/user-attachments/assets/8c90bd6f-b577-4e3a-8882-d003641fe353)
 
-##### This is an example of how the script is expected to work:
-다음은 스크립트의 작동 예시입니다:
+아래의 두 개의 명령어를 사용해 서브젝트의 요구 사항 일부를 확인할 수 있다.
 
-```sh
-Broadcast message from root@wil (tty1) (Sun Apr 25 15:45:00 2021):
-#Architecture: Linux wil 4.19.0-16-amd64 #1 SMP Debian 4.19.181-1 (2021-03-19) x86_64 GNU/Linux
-#CPU physical : 1
-#vCPU : 1
-#Memory Usage: 74/987MB (7.50%)
-#Disk Usage: 1009/2Gb (39%)
-#CPU load: 6.7%
-#Last boot: 2021-04-25 14:45
-#LVM use: yes
-#Connections TCP : 1 ESTABLISHED
-#User log: 1
-#Network: IP 10.0.2.15 (08:00:27:51:9b:a5)
-#Sudo : 42 cmd
-```
+Rocky:
+![Screenshot from 2025-06-16 17-13-12](https://github.com/user-attachments/assets/b7cc0c6f-443f-4afa-ac69-15cf39f6075f)
 
+Debian:
+![Screenshot from 2025-06-16 17-13-18](https://github.com/user-attachments/assets/f25bc3f8-774a-47d1-a4d8-9ec933c3fb6a)
 
-##### Below are two commands you can use to check some of the subject’s requirements:
-아래 두개는 과제의 요구사항을 체크할 수 있는 명령어입니다.
-##### For Rocky: 
+---
+## Chapter 5
+### 보너스 파트
 
-![4](https://user-images.githubusercontent.com/87311268/221546079-5f9b2d4a-c25f-4d82-a584-7edfa054d995.png)
+보너스 목록:
 
+- 파티션을 올바르게 설정하여 아래와 유사한 구조를 만들어라:
+![Screenshot from 2025-06-16 17-13-26](https://github.com/user-attachments/assets/06030c6c-19c5-4acd-b086-fea69758b816)
 
+- 다음과 같은 서비스가 있는 실용적인 WordPress 웹사이트를 설정해라: lighttpd, Mari-aDB, 그리고 PHP.
+- 당신이 유용하다고 생각한 서비스(NGINX / Apache2는 제외해라!)를 선택하고 설정해라. 디펜스 중, 당신의 선택을 정당화해야 한다.
 
-##### For Debian: 
+> ℹ️
+>
+> 보너스 파트를 완성하려면, 추가적인 서비스를 설정해야 한다. 이 경우, 필요에 맞게 추가 포트를 열 수 있다. 물론, UFW/Firewalld의 규칙은 그에 맞게 조정되어야 한다.
 
-![5](https://user-images.githubusercontent.com/87311268/221546099-e2f84d56-a588-4440-9bb4-bf2560827cf3.png)
-
-
-# **Chapter V**
-## Bonus part
-
-##### Bonus list:
-- Set up partitions correctly so you get a structure similar to the one below:
-- 아래의 구조처럼 파티션을 올바르게 구성하세요: 
-
-![6](https://user-images.githubusercontent.com/87311268/221546158-1aab2733-98e9-48fa-a65d-073c81bde975.png)
-
-- Set up a functional WordPress website with the following services: lighttpd, MariaDB, and PHP.
-- lighttpd, MariaDB, PHP를 이용해서 WordPress로 기능을 갖춘 웹사이트를 구성하세요. 
-- Set up a service of your choice that you think is useful (NGINX / Apache2 excluded!). During the defense, you will have to justify your choice
-- 여러분이 생각하기에 유용한 서비스를 구성하세요(NGINX / Apache2는 제외!). 평가 중에, 여러분의 선택을 정당화해야합니다.
-
-> ℹ️To complete the bonus part, you have the possibility to set up extra services. In this case, you may open more ports to suit your needs. Of course, the UFW/Firewalld rules has to be adapted accordingly.
-
-> 보너스 파트를 마치기 위해서, 여러분은 추가적인 서비스들을 설치할 가능성이 있습니다. 이 경우에는, 필요에 따른 포트들만 더 열 수 있습니다. 당연히, UFW/Firewalld 규칙은 그에 맞춰 적용되어 있어야 합니다.
-
-> ⚠️The bonus part will only be assessed if the mandatory part is PERFECT. Perfect means the mandatory part has been integrally done and works without malfunctioning. If you have not passed ALL the mandatory requirements, your bonus part will not be evaluated at all.
-
-> ⚠️보너스 파트는 기본적으로 요구된 파트가 ___완벽한___ 경우에만 평가됩니다. 완벽의 의미는 종합적으로 처음부터 끝까지 오류 없이 잘 작동하는 상태를 의미합니다. 만약 기본 요구사항을 모두 충족하지 못했다면, 보너스 파트는 평가되지 않습니다.
-
-
-# **Chapter VI**
-## Submission and peer-evaluation
-
-##### You only have to turn in a signature.txt file at the root of your Git repository. You must paste in it the signature of your machine’s virtual disk. To get this signature, you first have to open the default installation folder (it is the folder where your VMs are saved):
-여러분은 Git repository의 root에 signature.txt 파일만 제출하여야 합니다.  signature.txt에는 가상 머신의 디스크 이미지 파일의 signature를 붙여 넣어야 합니다. 이 signature를 만들려면, 먼저, 기본 설치 폴더를 여셔야 합니다(VM이 저장되어 있는 폴더).
-
-- Windows: %HOMEDRIVE%%HOMEPATH%\VirtualBox VMs\ 
-- Linux: ~/VirtualBox VMs/
-- MacM1: ~/Library/Containers/com.utmapp.UTM/Data/Documents/
-- MacOS: ~/VirtualBox VMs/
-
-##### Then, retrieve the signature from the ".vdi" file (or ".qcow2 for UTM’users) of your virtual machine in sha1 format. Below are 4 command examples for a rocky_serv.vdi file:
-그리고 나서, 가상 머신의 ".vdi" 파일(또는 UTM users의 경우 ".qcow2")에서 signature를 sha1 형식으로 검색합니다.
-- Windows: certUtil -hashfile rocky_serv.vdi sha1
-- Linux: sha1sum rocky_serv.vdi
-- For Mac M1: shasum rocky.utm/Images/disk-0.qcow2
-- MacOS: shasum rocky_serv.vdi
-
-
-##### This is an example of what kind of output you will get:
-다음은 여러분이 받을 출력의 예시입니다:
-- 6e657c4619944be17df3c31faa030c25e43e40af
-
-> ℹ️Please note that your virtual machine’s signature may be altered after your first evaluation. To solve this problem, you can duplicate your virtual machine or use save state.
-
-> ℹ️첫 평가 후에 여러분의 가상 머신의 signature가 바뀐다는 점을 알고 계시기 바랍니다. 이 문제를 해결하기 위해서, 가상 머신을 복제하거나 상태 저장을 사용하실 수 있습니다.
-
-
-> ⚠️It is of course FORBIDDEN to turn in your virtual machine in your Git repository. During the defense, the signature of the signature.txt file will be compared with the one of your virtual machine. If the two of them are not identical, your grade will be 0.
-
-> ⚠️당연히 Git repository에 가상 머신을 제출하는 것은 ___금지___ 됩니다. 평가를 진행하면서, signature.txt 파일에 있는 서명은 가상 머신의 서명과 비교될 것입니다. 만약 이 두 개가 동일하지 않다면, 0점을 받게 될 것입니다.
+> ⚠️
+>
+> 보너스 파트는 필수 파트가 완벽해야만 접근할 수 있다. 완벽하다는 것은 필수 파트가 완전히 완성됐으며 오작동 없이 동작한다는 의미이다. 만약 필수 요구사항을 전부 통과하지 못 했다면, 보너스 파트는 절대 평가 받을 수 없다.
