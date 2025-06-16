@@ -20,6 +20,8 @@
 ## Chapter 1
 ### Preamble
 
+![Screenshot from 2025-06-16 17-12-46](https://github.com/user-attachments/assets/d1884590-000c-4d64-b9d7-ad4af64317fe)
+
 ---
 ## Chapter 2
 ### Introduction
@@ -51,7 +53,9 @@ You must choose as an operating system either the latest stable version of **Deb
 >
 > Setting up Rocky is quite complex. Therefore, you don't have to set up KDump. However, SELinux must be running at startup and its configuration has to be adapted for the project's needs. AppArmor for Debian must be running at startup too.
 
-You must create at least 2 encrypted partitions using **LVM**. Below is an example of the expected partitioning.
+You must create at least 2 encrypted partitions using **LVM**. Below is an example of the expected partitioning:
+![Screenshot from 2025-06-16 17-12-57](https://github.com/user-attachments/assets/580e402d-701a-4fbe-a77a-f513e4b9f67f)
+
 
 > ℹ️
 >
@@ -125,12 +129,15 @@ Your script must always be able to display the following information:
 > During the defense, you will be asked to explain how this script works. You will also have to interrupt it without modifying it. Take a look at cron.
 
 This is an example of how the script is expected to work:
+![Screenshot from 2025-06-16 17-13-05](https://github.com/user-attachments/assets/8c90bd6f-b577-4e3a-8882-d003641fe353)
 
 Below are two commands you can use to check some of the subject's requirements:
 
 For Rocky:
+![Screenshot from 2025-06-16 17-13-12](https://github.com/user-attachments/assets/b7cc0c6f-443f-4afa-ac69-15cf39f6075f)
 
 For Debian:
+![Screenshot from 2025-06-16 17-13-18](https://github.com/user-attachments/assets/f25bc3f8-774a-47d1-a4d8-9ec933c3fb6a)
 
 ---
 ## Chapter 5
@@ -139,6 +146,7 @@ For Debian:
 Bonus list:
 
 - Set up partitions correctly so you get a structure similar to the one below:
+![Screenshot from 2025-06-16 17-13-26](https://github.com/user-attachments/assets/06030c6c-19c5-4acd-b086-fea69758b816)
 
 - Set up a functional WordPress website with the following services: lighttpd, Mari-aDB, and PHP.
 - Set up a service of your choice that you think is useful (NGINX / Apache2 ex-cluded!). During the defense, you will have to justify your choice.
